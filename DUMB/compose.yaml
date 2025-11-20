@@ -1,0 +1,35 @@
+services:
+  DUMB:
+    container_name: DUMB
+    image: iampuid0/dumb:jellyfin                                    ## Optionally, specify a specific version of DUMB w/ image: iampuid0/dumb:2.0.0
+    stop_grace_period: 30s                                            ## Adjust as need to allow for graceful shutdown of the container
+    shm_size: 128mb                                                   ## Increased for PostgreSQL
+    stdin_open: true                                                  ## docker run -i
+    tty: true                                                         ## docker run -t
+    volumes:
+      - /home/debrid/docker/DUMB/config:/config                     ## Location of configuration files.
+      - /home/debrid/docker/DUMB/logs:/log                           ## Location for logs
+      - /home/debrid/docker/DUMB/data:/data                         ## Location for all service data
+      - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rshared             ## Location for all symlinks and rclone mounts - change to /mnt/debrid:rshared if using decypharr 
+    environment:
+      - TZ=America/Chicago #CHANGE_TO_YOUR_TZ
+      - PUID=1000 #CHANGE_TO_YOUR_UID
+      - PGID=1000 #CHANGE_TO_YOUR_GID
+    # network_mode: container:gluetun                                ## Example to attach to gluetun vpn container if realdebrid blocks IP address
+    ports:
+      - "3005:3005"                                                  ## DUMB Frontend
+      - "3000:3000"                                                  ## Riven Frontend
+      - "5050:5050"                                                  ## pgAdmin 4 Frontend
+      - "5000:5000"                                                  ## CLI Debrid Frontend      
+      - "8282:8282"                                                  ## Decypharr Frontend         
+      - "8096:8096"                                                ## Plex Media Server
+      - "8182:8182"                             ## Zilean frontend      
+    network_mode: bridge
+    devices:
+      - /dev/fuse:/dev/fuse:rwm
+      - /dev/dri:/dev/dri
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+      - no-new-privileges
