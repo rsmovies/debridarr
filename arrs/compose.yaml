@@ -1,4 +1,9 @@
+version: "3.9"
+
 services:
+  # ----------------------------------------------------------
+  # PROWLARR
+  # ----------------------------------------------------------
   prowlarr:
     image: linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -6,54 +11,164 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
-      - UMASK=022
+      - UMASK=002
     volumes:
       - /home/debrid/docker/DUMB/data/prowlarr:/config
     ports:
       - "9696:9696"
-    network_mode: bridge
     security_opt:
       - no-new-privileges:true
     restart: always
 
-  sonarr:
+  # ----------------------------------------------------------
+  # SONARR 4K
+  # ----------------------------------------------------------
+  sonarr_4k:
     image: linuxserver/sonarr:latest
-    container_name: rd_sonarr
-    hostname: rd_sonarr
+    container_name: sonarr_4k
+    hostname: sonarr_4k
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
-      - UMASK=022
+      - UMASK=002
     volumes:
-      - /home/debrid/docker/DUMB/data/sonarr:/config
+      - /home/debrid/docker/DUMB/data/sonarr_4k:/config
       - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rslave
     ports:
-      - "8989:8989"
-    network_mode: bridge
+      - "8990:8989"
     security_opt:
       - no-new-privileges:true
     restart: always
 
-  radarr:
+  # ----------------------------------------------------------
+  # SONARR ANIME
+  # ----------------------------------------------------------
+  sonarr_anime:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr_anime
+    hostname: sonarr_anime
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - UMASK=002
+    volumes:
+      - /home/debrid/docker/DUMB/data/sonarr_anime:/config
+      - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rslave
+    ports:
+      - "8991:8989"
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+
+  # ----------------------------------------------------------
+  # SONARR REMUX
+  # ----------------------------------------------------------
+  sonarr_remux:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr_remux
+    hostname: sonarr_remux
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - UMASK=002
+    volumes:
+      - /home/debrid/docker/DUMB/data/sonarr_remux:/config
+      - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rslave
+    ports:
+      - "8992:8989"
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+
+  # ----------------------------------------------------------
+  # SONARR WEB-DL
+  # ----------------------------------------------------------
+  sonarr_webdl:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr_webdl
+    hostname: sonarr_webdl
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - UMASK=002
+    volumes:
+      - /home/debrid/docker/DUMB/data/sonarr_webdl:/config
+      - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rslave
+    ports:
+      - "8993:8989"
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+
+  # ----------------------------------------------------------
+  # RADARR 4K
+  # ----------------------------------------------------------
+  radarr_4k:
     image: linuxserver/radarr:latest
-    container_name: rd_radarr
-    hostname: rd_radarr
+    container_name: radarr_4k
+    hostname: radarr_4k
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
-      - UMASK=022
+      - UMASK=002
     volumes:
-      - /home/debrid/docker/DUMB/data/radarr:/config
+      - /home/debrid/docker/DUMB/data/radarr_4k:/config
       - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rslave
     ports:
-      - "7878:7878"
-    network_mode: bridge
+      - "7879:7878"
     security_opt:
       - no-new-privileges:true
     restart: always
 
+  # ----------------------------------------------------------
+  # RADARR ANIME
+  # ----------------------------------------------------------
+  radarr_anime:
+    image: linuxserver/radarr:latest
+    container_name: radarr_anime
+    hostname: radarr_anime
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - UMASK=002
+    volumes:
+      - /home/debrid/docker/DUMB/data/radarr_anime:/config
+      - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rslave
+    ports:
+      - "7881:7878"
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+
+  # ----------------------------------------------------------
+  # RADARR REMUX
+  # ----------------------------------------------------------
+  radarr_remux:
+    image: linuxserver/radarr:latest
+    container_name: radarr_remux
+    hostname: radarr_remux
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - UMASK=002
+    volumes:
+      - /home/debrid/docker/DUMB/data/radarr_remux:/config
+      - /home/debrid/docker/DUMB/mnt/debrid:/mnt/debrid:rslave
+    ports:
+      - "7880:7878"
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+  # ----------------------------------------------------------
+  # OMBI
+  # ----------------------------------------------------------
   ombi:
     image: lscr.io/linuxserver/ombi:latest
     container_name: ombi
@@ -66,5 +181,3 @@ services:
     ports:
       - 3579:3579
     restart: unless-stopped
-
-
