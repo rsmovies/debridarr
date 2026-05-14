@@ -1,38 +1,38 @@
 services:
   DUMB:
     container_name: DUMB
-    image: iampuid0/dumb:dev                                       ## Optionally, specify a specific version of DUMB w/ image: iampuid0/dumb:2.0.0
-    stop_grace_period: 30s                                            ## Adjust as need to allow for graceful shutdown of the container
-    shm_size: 128mb                                                   ## Increased for PostgreSQL
-    stdin_open: true                                                  ## docker run -i
-    tty: true                                                         ## docker run -t
+    image: iampuid0/dumb:dev
+    stop_grace_period: 30s
+    shm_size: 128mb
+    stdin_open: true
+    tty: true
     volumes:
-      - /home/username/docker/DUMB/config:/config                     ## Location of configuration files.
-      - /home/username/docker/DUMB/log:/log                           ## Location for logs
-      - /home/username/docker/DUMB/data:/data                         ## Location for all service data
-      - /home/username/docker/DUMB/mnt/debrid:/mnt/debrid:rshared             ## Location for all symlinks and rclone mounts - change to /mnt/debrid:rshared if using decypharr
+      - /home/username/docker/DUMB/config:/config
+      - /home/username/docker/DUMB/log:/log
+      - /home/username/docker/DUMB/data:/data
+      - /home/username/docker/DUMB/mnt/debrid:/mnt/debrid
     environment:
       - TZ=
       - PUID=
       - PGID=
-    # network_mode: container:gluetun                                ## Example to attach to gluetun vpn container if realdebrid blocks IP address
     ports:
       - "3005:3005"                                                  ## DUMB Frontend
-      - "3000:3000"                                                  ## Riven Frontend
-      - "5050:5050"                                                  ## pgAdmin 4 Frontend
-      - "5000:5000"                                                  ## CLI Debrid Frontend
-      - "8282:8282"                                                  ## Decypharr Frontend
-      - "32400:32400"                                                ## Plex Media Server (Optional)
-      - "8096:8096"                                                  ## Jellyfin/Emby Media Server (Optional)
-      - "9696:9696"                                                  ## Prowlarr                                                                                                                                                                                                                                                                                        
-      - "8989:8989"                                                  ## Sonarr (HD)
-      - "8990:8990"                                                  ## Sonarr (4K)
-      - "8991:8991"                                                  ## Sonarr (Anime)
-      - "7878:7878"                                                  ## Radarr (HD)
-      - "7879:7879"                                                  ## Radarr (4K)
-      - "7880:7880"                                                  ## Radarr (Anime)
+      - "3000:3000"                                                  ## NZBDav Frontend
+      - "8080:8080"                                                  ## NZBDav Backend
+      - "8282:8282"                                                  ## Decypharr 
+      - "8096:8096"                                                  ## Jellyfin/Emby
+      - "9696:9696"                                                  ## Prowlarr 
+      - "8989:8989"                                                  ## Usenet Sonarr HD
+      - "8990:8990"                                                  ## Debrid Sonarr HD
+      - "8991:8991"                                                  ## Usenet Sonarr 4K
+      - "8992:8992"                                                  ## Debrid Sonarr 4K 
+      - "7878:7878"                                                  ## Usenet Radarr HD
+      - "7879:7879"                                                  ## Debrid Radarr HD
+      - "7880:7880"                                                  ## Usenet Radarr 4k
+      - "7881:7881"                                                  ## Debrid Radarr 4K
       - "6969:6969"                                                  ## XXX
-      - "5055:5055"                                                  ## Seer
+      - "5055:5055"                                                  ## Seerr 
+      - "6868:6868"                                                  ## Profilarr
     devices:
       - /dev/fuse:/dev/fuse:rwm
       - /dev/dri:/dev/dri
